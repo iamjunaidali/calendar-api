@@ -13,6 +13,7 @@ require 'support/factory_bot'
 require 'database_cleaner'
 require 'shoulda/matchers'
 require 'faker'
+require 'sunspot/rails/spec_helper'
 
 # Add additional requires below this line. Rails is not loaded until this point!
 ActiveRecord::Migration.maintain_test_schema!
@@ -68,5 +69,13 @@ RSpec.configure do |config|
       with.test_framework :rspec
       with.library :rails
     end
+  end
+
+  config.before(:each) do
+    ::Sunspot.session = ::Sunspot::Rails::StubSessionProxy.new(::Sunspot.session)
+  end
+
+  config.after(:each) do
+    ::Sunspot.session = ::Sunspot.session.original_session
   end
 end
