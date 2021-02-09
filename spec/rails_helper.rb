@@ -1,14 +1,14 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
 
 require File.expand_path('../config/environment', __dir__)
 
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
+require 'spec_helper'
+require 'helper'
 require 'rspec/rails'
 require 'database_cleaner'
-require 'helper'
 require 'support/factory_bot'
 require 'database_cleaner'
 require 'shoulda/matchers'
@@ -63,39 +63,10 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 
-  config.before do
-    Sidekiq::Worker.clear_all
-  end
-
-  RSpec::Sidekiq.configure do |configuration|
-    configuration.warn_when_jobs_not_processed_by_sidekiq = false
-    configuration.clear_all_enqueued_jobs = true # default => true
-
-    # Whether to use terminal colours when outputting messages
-    configuration.enable_terminal_colours = true # default => true
-
-    # Warn when jobs are not enqueued to Redis but to a job array
-    configuration.warn_when_jobs_not_processed_by_sidekiq = true # default => true
-  end
-
   Shoulda::Matchers.configure do |configuration|
     configuration.integrate do |with|
       with.test_framework :rspec
       with.library :rails
-    end
-  end
-
-  RSpec::Matchers.define :permit do |action|
-    match do |policy|
-      policy.public_send("#{action}?")
-    end
-
-    failure_message do |policy|
-      "#{policy.class} does not permit #{action} on #{policy.record} for #{policy.user.inspect}."
-    end
-
-    failure_message_for_should_not do |policy|
-      "#{policy.class} does not forbid #{action} on #{policy.record} for #{policy.user.inspect}."
     end
   end
 end

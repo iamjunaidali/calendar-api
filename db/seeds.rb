@@ -5,3 +5,12 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+(1..5).each do |i|
+  Event.create({
+  title: "Event-#{i}",
+  description: "This is a test description-#{i}",
+  start_date: DateTime.now,
+  end_date: DateTime.now + 10.minutes,
+  is_notification: false,
+})
+end
