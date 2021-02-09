@@ -1,24 +1,22 @@
-# README
+### Project Setup
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+ 1. Clone the Project:
+ ```sh
+git clone git@github.com:iamjunaidali/calendar-api.git
+cd calendar-api
+```
+2. Bundle install
+    + `bundle install`
+6. Run Data Migrations
+    + `rails db:setup db:migrate`
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Technologies:
+- Ruby version (2.7.1)
+- PostgreSQL (12.4)
+- Sidekiq
+* Testing with:
+    - Rspec
+    - Rspec Sidekiq
+    - Shoulda matchers
+    - Database cleaner
+    - Faker
