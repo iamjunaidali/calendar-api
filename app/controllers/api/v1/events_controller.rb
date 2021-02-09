@@ -3,7 +3,7 @@ module Api
     class EventsController < BaseController
 
       def create
-        event = Event.create(event_params)
+        event = Event.create!(event_params)
         render json: event, serializer: EventSerializer::Full
       end
 
@@ -14,13 +14,21 @@ module Api
       end
 
       def index
-        collection = EventsCollection.new(params)
+        collection = EventsCollection.new({})
         render json: collection.results, each_serializer: EventSerializer::Full
       end
 
-      def search_event
-        event.update!(event_params)
-        render json: event, serializer: EventSerializer::Full
+      def search_events
+        # sd = DateTime.parse(params[:start]).beginning_of_day
+        # ed = sd.end_of_day
+
+        #Solr was not working in testing due to some dependencies issues.
+        # results ||= Event.search do
+        #   with(:start_date, sd..ed)
+        # end
+
+        collection = EventsCollection.new(params)
+        render json: collection.results, each_serializer: EventSerializer::Full
       end
 
       def destroy
@@ -38,7 +46,7 @@ module Api
       end
 
       def event_params
-        params.permit(:title, :description, :start_date, :end_date, :is_notification)
+        params.permit(:title, :description, :start_date, :end_date, :is_notification).merge(start_date: params[:start], end_date: params[:end])
       end
     end
   end
