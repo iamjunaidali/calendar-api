@@ -10,8 +10,8 @@ class EventsCollection < BaseCollection
   end
 
   def all_events_of_the_day
-    if params[:start]
-      sd = Date.parse(params[:start]).beginning_of_day
+    if params[:start_date]
+      sd = Date.parse(params[:start_date]).beginning_of_day
       ed = sd.end_of_day
 
       filter do

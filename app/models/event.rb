@@ -7,8 +7,8 @@ class Event < ApplicationRecord
     reminder: 'reminder'
   }.freeze
 
-  searchable do
-    time  :start_date
-    time  :end_date
-  end
+  # searchable do
+  #   time  :start_date
+  #   time  :end_date
+  # end
 end

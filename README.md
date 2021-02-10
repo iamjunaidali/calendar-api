@@ -14,9 +14,15 @@ Technologies:
 - Ruby version (2.7.1)
 - PostgreSQL (12.4)
 - Sidekiq
+- Pusher
 * Testing with:
     - Rspec
     - Rspec Sidekiq
     - Shoulda matchers
     - Database cleaner
     - Faker
+
+### What could have been better if I had time
+
+ 1. Add more test coverage
+ 2. Solr fully funtional
