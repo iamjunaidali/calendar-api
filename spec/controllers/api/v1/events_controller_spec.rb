@@ -16,11 +16,14 @@ RSpec.describe Api::V1::EventsController, type: :request do
     context 'event successfully created' do
       let!(:params) do
         {
-          title: "Reminder event",
-          description: "This is a test reminder event",
-          start: DateTime.current,
-          end: DateTime.current + 30.minute,
-          is_notification: true
+          event:
+          {
+            title: "Reminder event",
+            description: "This is a test reminder event",
+            start_date: DateTime.current,
+            end_date: DateTime.current + 30.minute,
+            is_notification: true
+          }
         }
       end
 
@@ -37,15 +40,25 @@ RSpec.describe Api::V1::EventsController, type: :request do
 
       let!(:params) do
         {
-          description: "Event has been updated",
-          start: DateTime.current,
-          end: DateTime.current + 30.minute
+          event:
+          {
+            description: "Event has been updated",
+            start_date: DateTime.current,
+            end_date: DateTime.current + 30.minute
+          }
         }
       end
 
       it 'updates an event' do
         put api_v1_event_path(update_event.id), params: params
         expect(parsed_response['description']).to eq("Event has been updated")
+      end
+    end
+
+    context 'event not found' do
+      it 'raise an error' do
+        put api_v1_event_path(1000), params: {}
+        expect(parsed_response['message']).to eq("Record not found.")
       end
     end
   end
@@ -66,16 +79,19 @@ RSpec.describe Api::V1::EventsController, type: :request do
   describe '#search_events' do
     context 'when specific date provided' do
       let!(:search_event) { create(:event, description: "This is a test description of search event",
-                                    start_date: DateTime.parse("2020-06-12")) }
+                                    start_date: "2021-02-10T02:06:00") }
       let!(:params) do
         {
-          start: "2020-06-12",
+          event:
+          {
+            start_date: "2021-02-10T02:06:00",
+          }
         }
       end
 
       it 'returns all events' do
         get search_events_api_v1_events_path, params: params
-        expect(parsed_response.first['description']).to eq("This is a test description of search event")
+        expect(parsed_response.last['description']).to eq("This is a test description of search event")
       end
     end
   end

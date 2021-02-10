@@ -1,13 +1,13 @@
 module EventSerializer
   class Full < ActiveModel::Serializer
-    attributes :id, :title, :description, :start_date, :end_date, :is_notification
+    attributes :id, :title, :description, :start, :end, :is_notification
 
-    def start_date
-      object.start_date.strftime('%Y-%m-%d')
+    def start
+      object.start_date
     end
 
-    def end_date
-      object.end_date.strftime('%Y-%m-%d')
+    def end
+      object.end_date
     end
   end
 end

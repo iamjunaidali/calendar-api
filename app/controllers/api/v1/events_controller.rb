@@ -1,14 +1,12 @@
 module Api
   module V1
     class EventsController < BaseController
-
       def create
         event = Event.create!(event_params)
         render json: event, serializer: EventSerializer::Full
       end
 
       def update
-        event = Event.find(params[:id])
         event.update!(event_params)
         render json: event, serializer: EventSerializer::Full
       end
@@ -27,7 +25,7 @@ module Api
         #   with(:start_date, sd..ed)
         # end
 
-        collection = EventsCollection.new(params)
+        collection = EventsCollection.new(event_params)
         render json: collection.results, each_serializer: EventSerializer::Full
       end
 
@@ -42,11 +40,11 @@ module Api
       private
 
       def event
-        @event ||= Event.find(params[:id])
+        @event ||= Event.find_by!(id: params[:id])
       end
 
       def event_params
-        params.permit(:title, :description, :start_date, :end_date, :is_notification).merge(start_date: params[:start], end_date: params[:end])
+        params.require(:event).permit(:title, :description, :start_date, :end_date, :is_notification)
       end
     end
   end
