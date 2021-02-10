@@ -1,0 +1,4 @@
+NotificationGenerator_cron:
+  cron: "*/9 * * * * UTC"
+  class: "NotificationGenerator"
+  queue: notification

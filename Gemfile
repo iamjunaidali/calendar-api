@@ -26,10 +26,17 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'active_model_serializers'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-# gem 'rack-cors'
+gem 'rack-cors'
 
 #Sunspot for Solr search engine
 gem 'sunspot_rails'
+
+#Pusher for notification service
+gem 'pusher'
+
+#Sidekiq for background jobs
+gem 'sidekiq'
+gem "sidekiq-cron"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -53,4 +60,5 @@ group :test do
   gem 'shoulda-matchers', '~> 3.1'
   gem 'faker'
   gem 'database_cleaner'
+  gem 'rspec-sidekiq'
 end
